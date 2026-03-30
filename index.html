@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8G Grimoire</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #1a002b, #000);
+  color: white;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* 🌌 BINTANG */
+body::before {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 200%;
+  background: url('https://www.transparenttextures.com/patterns/stardust.png');
+  opacity: 0.3;
+  z-index: -1;
+  animation: moveBg 80s linear infinite;
+}
+
+@keyframes moveBg {
+  from { transform: translateY(0); }
+  to { transform: translateY(-1000px); }
+}
+
+/* ✨ JUDUL */
+h1 {
+  margin-top: 20px;
+  font-size: 28px;
+  color: #d8aaff;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #a855f7; }
+  to { text-shadow: 0 0 30px #ff00ff; }
+}
+
+/* 📦 GRID */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  padding: 15px;
+}
+
+/* 🧾 CARD */
+.card {
+  background: rgba(255,255,255,0.1);
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.8s ease forwards;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #a855f7;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🔮 POPUP */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: #1a002b;
+  padding: 20px;
+  border-radius: 15px;
+  width: 80%;
+  max-width: 300px;
+  animation: pop 0.3s;
+}
+
+@keyframes pop {
+  from { transform: scale(0.5); }
+  to { transform: scale(1); }
+}
+
+button {
+  margin-top: 10px;
+  padding: 8px;
+  border: none;
+  background: #a855f7;
+  color: white;
+  border-radius: 8px;
+}
+
+/* ✨ ELEMEN MAGIC MELAYANG */
+.magic {
+  position: fixed;
+  width: 50px;
+  opacity: 0.6;
+  pointer-events: none;
+  animation: float 6s ease-in-out infinite;
+}
+
+.magic1 { top: 10%; left: 5%; }
+.magic2 { top: 70%; left: 85%; }
+.magic3 { top: 40%; left: 50%; }
+.magic4 { top: 80%; left: 20%; }
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ✨ ELEMEN MAGIC -->
+<img src="https://www.transparenttextures.com/patterns/stardust.png" class="magic magic1">
+<img src="https://www.transparenttextures.com/patterns/stardust.png" class="magic magic2">
+<img src="https://www.transparenttextures.com/patterns/stardust.png" class="magic magic3">
+<img src="https://www.transparenttextures.com/patterns/stardust.png" class="magic magic4">
+
+<h1>🔮 8G Grimoire 🔮</h1>
+
+<div class="container" id="list"></div>
+
+<div class="popup" id="popup">
+  <div class="popup-content" id="popupContent"></div>
+</div>
+
+<script>
+const students = [
+"Adit Andhika Septiawan",
+"Agny Mai Amirat",
+"Alikha Zifara Maharani",
+"Alman Almaulana Putra",
+"Annisa Rania Putri",
+"Arya Ghaussan Ghaillan",
+"Asyifa Eka Faradilla",
+"Ayu Rahmawati",
+"Azzahra Nurfiqriyah",
+"Edelweis Alfatihah Nurislami",
+"Fadly Syahbani",
+"Fajar Agya Ilham",
+"Fathimah Az-Zahra Irawan",
+"Frans Jerrykho Nababan",
+"Gepin Azka",
+"Giovano Putra Firizqi",
+"Ilham Putra Maulana",
+"Jaka Aditya Putra",
+"Kelvin Nugraha",
+"Khairul Rizal",
+"Laisya Zakiyatul Muna",
+"Lusy Gustin Adiyansyah",
+"Meysa Azizah",
+"Muhamad Daffa Khalihur Rahman",
+"Muhamad Faeyza Anwar",
+"Muhamad Rafka Pratama",
+"Muhamad Revan Maulana",
+"Naa'imah Qothrunnadaa",
+"Nayla Almira Pahradia",
+"Nur Cinta Oktaviany",
+"Putri Aira Sofwana Ulya",
+"Repan Muhammad Repando",
+"Revino Faiq Syauki",
+"Rima Silviana",
+"Rina Rahayu",
+"Selvina Anggraeni",
+"Syaakira Kireinisa",
+"Yusbikha Faqih Saputra",
+"Zhilvya Dwina A-Zahra",
+"Zikra Achyar Nurlafi"
+];
+
+const list = document.getElementById("list");
+const popup = document.getElementById("popup");
+const content = document.getElementById("popupContent");
+
+students.forEach(name => {
+  const div = document.createElement("div");
+  div.className = "card";
+  div.innerText = name;
+  div.onclick = () => showProfile(name);
+  list.appendChild(div);
+});
+
+function showProfile(name) {
+  popup.style.display = "flex";
+  content.innerHTML = `
+    <h3>${name}</h3>
+    <p>🌙 Umur: 13-14</p>
+    <p>🧪 Hobi: -</p>
+    <button onclick="closePopup()">Tutup</button>
+  `;
+}
+
+function closePopup() {
+  popup.style.display = "none";
+}
+
+/* 💥 EFEK KLIK MAGIC */
+document.addEventListener("click", function(e) {
+  const s = document.createElement("div");
+  s.style.position = "fixed";
+  s.style.left = e.clientX + "px";
+  s.style.top = e.clientY + "px";
+  s.style.width = "8px";
+  s.style.height = "8px";
+  s.style.background = "#a855f7";
+  s.style.borderRadius = "50%";
+  s.style.boxShadow = "0 0 15px #a855f7";
+  s.style.pointerEvents = "none";
+  s.style.animation = "spark 0.5s ease-out";
+
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 500);
+});
+</script>
+
+<style>
+@keyframes spark {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(3); opacity: 0; }
+}
+</style>
+
+</body>
+</html>
